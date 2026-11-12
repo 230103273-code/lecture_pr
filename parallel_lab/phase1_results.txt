@@ -1,0 +1,41 @@
+# Phase 1 — False Sharing
+
+Student ID: 230103273
+P_phys: 6
+P_log: 12
+Steps per trial (total across workers): 24000000
+Warmups: 2; timed trials: 7
+
+## Table 1A — stride sweep at P_phys
+| stride | separation_bytes | median_ms | IQR_ms | throughput_Mops_s |
+|---:|---:|---:|---:|---:|
+| 1 | 8 | 2101.090 | 123.258 | 11.423 |
+| 2 | 16 | 2044.134 | 107.286 | 11.741 |
+| 4 | 32 | 2014.000 | 145.217 | 11.917 |
+| 8 | 64 | 1957.293 | 47.489 | 12.262 |
+| 16 | 128 | 2020.215 | 108.012 | 11.880 |
+| 32 | 256 | 1975.595 | 52.529 | 12.148 |
+
+## Table 1B — scaling
+| stride | p | median_ms | speedup | efficiency | Karp-Flatt_e |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1 | 7189.015 | 1.0000 | 1.0000 | N/A |
+| 1 | 2 | 4701.630 | 1.5290 | 0.7645 | 0.308004 |
+| 1 | 4 | 2723.058 | 2.6401 | 0.6600 | 0.171707 |
+| 1 | 6 | 3994.998 | 1.7995 | 0.2999 | 0.466850 |
+| 1 | 8 | 3308.330 | 2.1730 | 0.2716 | 0.383077 |
+| 1 | 12 | 2970.898 | 2.4198 | 0.2017 | 0.359915 |
+| 16 | 1 | 15465.255 | 1.0000 | 1.0000 | N/A |
+| 16 | 2 | 9495.332 | 1.6287 | 0.8144 | 0.227957 |
+| 16 | 4 | 5496.160 | 2.8138 | 0.7035 | 0.140517 |
+| 16 | 6 | 4052.134 | 3.8166 | 0.6361 | 0.114418 |
+| 16 | 8 | 3160.431 | 4.8934 | 0.6117 | 0.090694 |
+| 16 | 12 | 2676.415 | 5.7783 | 0.4815 | 0.097883 |
+
+## Verification
+
+VERIFY_HASH[PHASE1]: 2FCC1842EE540F75 (P_log=12)
+
+## Interpretation prompts
+- Compare the stride=1 and stride=16 Karp-Flatt values as p increases.
+- The tested byte separations are stride × 8; infer a cache-line boundary only from measured results and hardware documentation.
